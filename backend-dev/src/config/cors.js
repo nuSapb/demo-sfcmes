@@ -1,5 +1,5 @@
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',')
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
   : [
       'http://13.251.248.92',
       'https://13.251.248.92',
