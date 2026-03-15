@@ -32,8 +32,16 @@ app.use(helmet({
 }));
 
 // Apply CORS middleware
-app.use(cors(getCorsOptions(NODE_ENV)));
-logger.info('CORS middleware applied');
+try {
+  const corsOptions = getCorsOptions(NODE_ENV);
+  app.use(cors(corsOptions));
+  logger.info('CORS middleware applied', { origins: corsOptions.origin });
+} catch (err) {
+  logger.error('CORS middleware error:', err);
+}
+
+// Explicit preflight handler for Vercel
+app.options('*', cors(getCorsOptions(NODE_ENV)));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
